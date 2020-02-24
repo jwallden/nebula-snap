@@ -1,5 +1,4 @@
 name: nebula
-# version: git
 version: v1.1.0
 
 summary: A scalable overlay networking tool.
@@ -19,7 +18,7 @@ description: |
 
   For issues and other matters on this snap https://github.com/jwallden/nebula-snap
 
-grade: devel
+grade: stable
 confinement: strict
 
 base: core18
@@ -30,7 +29,6 @@ plugs:
     read:
       - /etc/nebula/config
       - /etc
-      - /etc/nebula/test
     write:
       - /etc/nebula/certs
       - /etc
@@ -53,7 +51,6 @@ parts:
 apps:
   nebula:
     command: bin/nebula -config /etc/nebula/config/config.yaml
-    # /etc/nebula/config.yaml
     plugs:
       - network
       - network-control
