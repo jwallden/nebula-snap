@@ -1,0 +1,66 @@
+name: nebula
+# version: git
+version: v1.1.0
+
+summary: A scalable overlay networking tool.
+
+description: |
+  Nebula is a scalable overlay networking tool with a focus on performance, simplicity and security.
+  It lets you seamlessly connect computers anywhere in the world. Nebula is portable, and runs on Linux, OSX, and Windows.
+  (Also: keep this quiet, but we have an early prototype running on iOS).
+  It can be used to connect a small number of computers, but is also able to connect tens of thousands of computers.
+
+  Nebula incorporates a number of existing concepts like encryption, security groups, certificates,
+  and tunneling, and each of those individual pieces existed before Nebula in various forms.
+  What makes Nebula different to existing offerings is that it brings all of these ideas together,
+  resulting in a sum that is greater than its individual parts.
+
+  https://github.com/slackhq/nebula
+
+# grade: devel
+confinement: strict
+
+base: core18
+
+# plugs:
+#   nebula-config:
+#     interface: system-files
+
+parts:
+  nebula:
+    plugin: go
+    source: https://github.com/slackhq/nebula.git
+    source-tag: $SNAPCRAFT_PROJECT_VERSION
+    source-type: git
+    build-packages:
+      - gcc
+
+apps:
+  nebula:
+    command: bin/nebula -config /etc/nebula/config/config.yaml
+    # /etc/nebula/config.yaml
+    plugs:
+      - network
+      - network-control
+  
+  cert-ca:
+    command: bin/nebula-cert ca -out-crt /etc/nebula/certs/ca.crt -out-key /etc/nebula/certs/ca.key
+
+  cert-sign:
+    command: bin/nebula-cert sign -ca-crt /etc/nebula/certs/ca.crt -ca-key /etc/nebula/certs/ca.key -out-crt /etc/nebula/certs -out-key /etc/nebula/certs
+
+
+  daemon:
+    command: bin/nebula -config /etc/nebula/config/config.yaml
+    daemon: simple
+    # restart-condition: always
+    # restart-delay: 10s
+    plugs:
+      - network
+      - network-control
+
+layout:
+  /etc/nebula/config:
+    bind: $SNAP_COMMON/config
+  /etc/nebula/certs:
+    bind: $SNAP_COMMON/certs
