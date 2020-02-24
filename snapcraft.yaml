@@ -22,9 +22,13 @@ confinement: strict
 
 base: core18
 
-# plugs:
-#   nebula-config:
-#     interface: system-files
+plugs:
+  nebula-config:
+    interface: system-files
+    read:
+      - /etc/nebula/config
+    write:
+      - /etc/nebula/certs
 
 parts:
   nebula:
@@ -42,13 +46,17 @@ apps:
     plugs:
       - network
       - network-control
+      - nebula-config
   
   cert-ca:
     command: bin/nebula-cert ca -out-crt /etc/nebula/certs/ca.crt -out-key /etc/nebula/certs/ca.key
+    plugs:
+      - nebula-config
 
   cert-sign:
-    command: bin/nebula-cert sign -ca-crt /etc/nebula/certs/ca.crt -ca-key /etc/nebula/certs/ca.key -out-crt /etc/nebula/certs -out-key /etc/nebula/certs
-
+    command: bin/nebula-cert sign -ca-crt /etc/nebula/certs/ca.crt -ca-key /etc/nebula/certs/ca.key -out-crt /etc/nebula/certs/nebula-node.crt -out-key /etc/nebula/certs/nebula-node.key
+    plugs:
+      - nebula-config
 
   daemon:
     command: bin/nebula -config /etc/nebula/config/config.yaml
@@ -58,9 +66,10 @@ apps:
     plugs:
       - network
       - network-control
+      - nebula-config
 
-layout:
-  /etc/nebula/config:
-    bind: $SNAP_COMMON/config
-  /etc/nebula/certs:
-    bind: $SNAP_COMMON/certs
+# layout:
+#   /etc/nebula/config:
+#     bind: $SNAP_COMMON/config
+#   /etc/nebula/certs:
+#     bind: $SNAP_COMMON/certs
