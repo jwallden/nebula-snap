@@ -1,5 +1,0 @@
-#!/bin/sh
-
-echo "Install hook activated"
-
-exit 0

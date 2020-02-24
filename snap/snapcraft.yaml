@@ -15,9 +15,11 @@ description: |
   What makes Nebula different to existing offerings is that it brings all of these ideas together,
   resulting in a sum that is greater than its individual parts.
 
-  https://github.com/slackhq/nebula
+  More info on Nebula https://github.com/slackhq/nebula
 
-# grade: devel
+  For issues and other matters on this snap https://github.com/jwallden/nebula-snap
+
+grade: devel
 confinement: strict
 
 base: core18
@@ -27,8 +29,17 @@ plugs:
     interface: system-files
     read:
       - /etc/nebula/config
+      - /etc
+      - /etc/nebula/test
     write:
       - /etc/nebula/certs
+      - /etc
+      - /etc/nebula
+
+hooks:
+  install:
+    plugs:
+      - nebula-config
 
 parts:
   nebula:
@@ -61,15 +72,7 @@ apps:
   daemon:
     command: bin/nebula -config /etc/nebula/config/config.yaml
     daemon: simple
-    # restart-condition: always
-    # restart-delay: 10s
     plugs:
       - network
       - network-control
       - nebula-config
-
-# layout:
-#   /etc/nebula/config:
-#     bind: $SNAP_COMMON/config
-#   /etc/nebula/certs:
-#     bind: $SNAP_COMMON/certs

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Install hook activated"
+
+# Would be nice to create /etc/nebula and subdirs here. This requires system-files plug and also
+# that it is connected when this script is run. Hopefully this will work if we can get acceptance
+# to auto connect system files
+
+if [ ! -d "/etc/nebula" ]; then
+    echo "This snap needs /etc/nebula and the two subdirs config and certs to exist"
+    echo "Please create /etc/nebula/config and /etc/nebula/certs and retry installing the snap"
+    exit -1
+    # echo "/etc/nebula does not exist. Creating..."
+#     mkdir -p /etc/nebula/certs
+#     mkdir /etc/nebula/config
+fi
+
+exit 0
