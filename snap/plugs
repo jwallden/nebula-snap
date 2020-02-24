@@ -1,0 +1,12 @@
+{
+  "network": {
+    "allow-auto-connection": "true"
+  },
+  "network-control": {
+    "allow-auto-connection": "true"
+  },
+  "system-files": {
+    "allow-auto-connection": "true",
+    "allow-installation": "true"
+  }
+}
