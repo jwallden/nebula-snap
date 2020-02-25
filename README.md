@@ -43,7 +43,7 @@ or using systemd:s logging facilities:
 
 ### Certificate creation
 
-#### Generate a Certificat Authority:
+#### Generate a Certificate Authority:
 
 `sudo nebula.cert-ca -name <ORGANIZATION_NAME>`
 
