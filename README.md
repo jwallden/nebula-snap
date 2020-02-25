@@ -33,6 +33,8 @@ You can NOT provide a location for the config.yaml file. It is hardcoded to `/et
 #### Start the daemon:
 `sudo snap start nebula.daemon`
 
+:warning: There seems to be an issue with the daemon after a reboot. The daemon is supposed to be started automatically on boot and it gets started. However, Nebula does not get a connection to the lighthouse. A **manual restart of the daemon** fixes this: `sudo snap start nebula.daemon`
+
 To check if the daemon started as expected:
 `sudo snap logs nebula.daemon`
 
