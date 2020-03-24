@@ -23,22 +23,6 @@ confinement: strict
 
 base: core18
 
-plugs:
-  nebula-config:
-    interface: system-files
-    read:
-      - /etc/nebula/config
-      - /etc
-    write:
-      - /etc/nebula/certs
-      - /etc
-      - /etc/nebula
-
-hooks:
-  install:
-    plugs:
-      - nebula-config
-
 parts:
   nebula:
     plugin: go
@@ -50,26 +34,24 @@ parts:
 
 apps:
   nebula:
-    command: bin/nebula -config /etc/nebula/config/config.yaml
+    command: bin/nebula -config $SNAP_COMMON/config/config.yaml
     plugs:
       - network
       - network-control
-      - nebula-config
   
   cert-ca:
-    command: bin/nebula-cert ca -out-crt /etc/nebula/certs/ca.crt -out-key /etc/nebula/certs/ca.key
-    plugs:
-      - nebula-config
+    command: bin/nebula-cert ca -out-crt $SNAP_COMMON/certs/ca.crt -out-key $SNAP_COMMON/certs/ca.key
 
   cert-sign:
-    command: bin/nebula-cert sign -ca-crt /etc/nebula/certs/ca.crt -ca-key /etc/nebula/certs/ca.key -out-crt /etc/nebula/certs/nebula-node.crt -out-key /etc/nebula/certs/nebula-node.key
-    plugs:
-      - nebula-config
+    command: bin/nebula-cert sign -ca-crt $SNAP_COMMON/certs/ca.crt -ca-key $SNAP_COMMON/certs/ca.key -out-crt $SNAP_COMMON/certs/nebula-node.crt -out-key $SNAP_COMMON/certs/nebula-node.key
 
   daemon:
-    command: bin/nebula -config /etc/nebula/config/config.yaml
+    command: bin/nebula -config $SNAP_COMMON/config/config.yaml
     daemon: simple
     plugs:
       - network
       - network-control
-      - nebula-config
+
+layout:
+  /etc/nebula:
+    bind: $SNAP_COMMON

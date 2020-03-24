@@ -2,3 +2,5 @@ certgen
 config.yaml
 
 *.snap
+
+build_and_install.sh
