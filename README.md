@@ -15,6 +15,10 @@ Current state:
   * `nebula-node.key`
 * Since created certs are placed in `/var/snap/nebula` the cert-functionality needs sudo permissions. Not optimal perhaps, but necessary.
 
+To bypass the above restrictions the snap can be installed with `--devmode`, thereby circumventing the sandboxing in place:
+
+`sudo snap install --devmode nebula`
+
 ## Usage
 
 ### Starting Nebula
