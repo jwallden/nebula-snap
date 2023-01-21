@@ -34,8 +34,11 @@ You can NOT provide a location for the config.yaml file. It is hardcoded to `/va
 :warning: There seems to be an issue with the daemon after a reboot **if the address to the lighthouse is stated as a domain name (e g lighthouse.example.com)**. The daemon is supposed to be started automatically on boot and it gets started. However, Nebula does not get a connection to the lighthouse. A **manual restart of the daemon** fixes this: `sudo snap restart nebula.daemon`
 This problem does not, however, occur if the ip of the lighthouse is put into the config file. (See [here](https://github.com/slackhq/nebula/issues/206))
 
+Once the configuration is proven, start the snap proper:
+`sudo snap start nebula`
+
 To check if the daemon started as expected:
-`sudo snap logs nebula.daemon`
+`sudo snap logs nebula`
 
 or using systemd:s logging facilities:
 `sudo journalctl -r -u snap.nebula.daemon.service`
